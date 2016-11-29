@@ -1,25 +1,35 @@
 package session
 
-import grizzled.slf4j.{Logger, Logging}
+import event.WebLogEvent
 import org.apache.spark.rdd.RDD
-import parser.WebLogParser
 
 /**
- * Created by adambellemare on 2016-11-27.
+ * Generates sessions for an RDD of WebLogEvents.
  */
-object SessionGenerator extends Logging {
+object SessionGenerator {
+  //A default established by Google Analytics.
+  private final val CONST_MAGIC_NUMBER_TIMEOUT_IN_MS = 1000*60*10
 
-  //@transient private[this] lazy val logger = Logger[this.type]
+  /**
+   *
+   * @param sourceEvents
+   * @param newSSFTimeoutsInMillis
+   * @return
+   */
+  def apply(sourceEvents: RDD[WebLogEvent], newSSFTimeoutsInMillis: Long = CONST_MAGIC_NUMBER_TIMEOUT_IN_MS): RDD[WebSession] = {
 
-  def apply(sourceEvents : RDD[String]) = {
+    val sessions = sourceEvents
+      .map(x => (x.clientIP, x))
+      .groupByKey()
+      .flatMap(x => {
+      val ssf = new StatefulSessionFactory(x._1, newSSFTimeoutsInMillis)
 
-    val webLogEvents = sourceEvents.flatMap(WebLogParser.parsePayTMAssignmentFormat(_))
+      ssf.addSeqOfEvents(x._2.toSeq)
 
-    val eventsPerUser = webLogEvents.map(x => {
-      (x.clientIP,1)
-    }).reduceByKey(_+_)
+      //Get all the completed sessions from the state machine.
+      ssf.yieldCompletedSessions(includeCurrentActiveSession = true)
 
-//    eventsPerUser.foreach(println(_))
+    })
+    sessions
   }
-
 }

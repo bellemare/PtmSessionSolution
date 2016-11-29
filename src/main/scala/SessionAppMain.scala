@@ -18,5 +18,13 @@ object SessionAppMain extends App with Logging {
 
   println("Total lines read = ", data.count())
 
+  //Determine the average session time
+
+
+  //Determine unique URL visits per session. To clarify, count a hit to a unique URL only once per session.
+
+  //Find the most engaged users, ie the IPs with the longest session times
+
+
 
 }

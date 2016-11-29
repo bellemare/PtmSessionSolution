@@ -1,6 +1,7 @@
+package common
+
+
 import org.apache.spark.SparkContext
-import org.joda.time.DateTime
-import org.joda.time.format.ISODateTimeFormat
 import org.scalatest.{Outcome, fixture}
 
 /**

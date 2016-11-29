@@ -1,3 +1,4 @@
+import common.SparkTestSuite
 import parser.WebLogParser
 
 /**
