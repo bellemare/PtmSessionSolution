@@ -13,7 +13,7 @@ class SessionAnalyticsTest extends SparkTestSuite {
   test("Most Engaged Users Test") { fixture =>
 
     val sourceRDD = fixture.sc.textFile("src/main/resources/2015_07_22_mktplace_shop_web_log_sample.log.gz")
-    val webLogEvents = sourceRDD.flatMap(WebLogParser.parsePayTMAssignmentFormat(_))
+    val webLogEvents = sourceRDD.flatMap(WebLogParser.parseWebLogEvents(_))
     val sessions = SessionGenerator(webLogEvents)
 
     val mostEngagedUsers = SessionAnalytics.getMostEngagedUsers(sessions)
@@ -31,9 +31,9 @@ class SessionAnalyticsTest extends SparkTestSuite {
 
     val singleSession = session.collect().head
 
-    println(s"Unique URLs visited = ${singleSession.getUniqueURLVisits()}")
+    println(s"Unique URLs visited = ${singleSession.getUniqueURLVisits}")
 
-    assert(singleSession.getUniqueURLVisits().length == 3)
+    assert(singleSession.getUniqueURLVisits.length == 3)
 
   }
 }

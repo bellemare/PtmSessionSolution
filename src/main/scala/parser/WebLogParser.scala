@@ -1,14 +1,13 @@
 package parser
 
 import event.WebLogEvent
-import grizzled.slf4j.Logger
-import org.joda.time.DateTime
-import org.joda.time.format.{ISODateTimeFormat, DateTimeFormat, DateTimeFormatter}
+import grizzled.slf4j.Logging
+import org.joda.time.format.ISODateTimeFormat
 
 /**
  * Created by adambellemare on 2016-11-27.
  */
-object WebLogParser {
+object WebLogParser extends Logging {
 
   val TIMESTAMP = "timestamp"
   val ELB = "elb"
@@ -26,11 +25,20 @@ object WebLogParser {
   val SSL_CIPHER = "ssl_cipher"
   val SSL_PROTOCOL = "ssl_protocol"
 
-  @transient private[this] lazy val logger = Logger[this.type]
-  //    timestamp elb client:port backend:port request_processing_time backend_processing_time response_processing_time elb_status_code backend_status_code received_bytes sent_bytes "request" "user_agent" ssl_cipher ssl_protocol
 
-  def parsePayTMAssignmentFormat(logLine: String): Option[WebLogEvent] = {
+  /**
+   * Parses out the WebLogEvent from a standard web event string. The supported format is outlined at:
+   * http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/access-log-collection.html#access-log-entry-format
+   *
+   * Log Text Format:
+   * timestamp elb client:port backend:port request_processing_time backend_processing_time response_processing_time elb_status_code backend_status_code received_bytes sent_bytes "request" "user_agent" ssl_cipher ssl_protocol
+   *
+   * @param logLine - Single Amazon EBS Load Balancer log event.
+   * @return
+   */
+  def parseWebLogEvents(logLine: String): Option[WebLogEvent] = {
     try {
+      //TODO: Evaluate if this regex is too slow for production performance, namely the (.*) for REQUEST.
       val regex =
         """([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s"(.*)"\s"([^"]*)"\s([^\s]+)\s([^\s]+)"""
 
@@ -44,7 +52,8 @@ object WebLogParser {
 
         if (results.isDefined) {
           val data = results.get
-
+          logger.debug(s"Log line parsed to: $data")
+          
           val dateTime = ISODateTimeFormat.dateTimeParser().parseDateTime(data.group(TIMESTAMP))
           val clientIP = data.group(CLIENT_IP_AND_PORT).split(":")(0)
           Some(new WebLogEvent(dateTime,
@@ -59,7 +68,7 @@ object WebLogParser {
     } catch {
       case e: Exception => {
         logger.error(s"Exception while trying to parse and create a WebLogEvent. Exception = $e, WebLog text = $logLine")
-        None
+        throw e
       }
     }
   }

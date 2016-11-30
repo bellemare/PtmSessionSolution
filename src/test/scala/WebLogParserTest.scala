@@ -31,7 +31,7 @@ class WebLogParserTest extends SparkTestSuite {
       """2015-05-13T23:39:43.945958Z my-loadbalancer 192.168.131.39:2817 10.0.0.1:80 0.001065 0.000015 0.000023 - - 57 502 "- - - " "-" ECDHE-ECDSA-AES128-GCM-SHA256 TLSv1.2"""
     )
 
-    val results = logList.map(WebLogParser.parsePayTMAssignmentFormat(_))
+    val results = logList.map(WebLogParser.parseWebLogEvents(_))
 
     results.foreach(println(_))
 

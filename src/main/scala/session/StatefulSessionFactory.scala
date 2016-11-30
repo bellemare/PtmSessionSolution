@@ -8,6 +8,8 @@ import scala.collection.mutable.ListBuffer
 /**
  * A stateful session factory that generates WebSessions from consecutive inputs of WebLogEvents.
  * This factory can be used both by streaming and batch applications.
+ * A session is defined as a series of consecutive events, none of which are separated by more than <timeout> in duration.
+ * A new session begins when the period between the last event and the next event is larger than <timeout>.
  *
  * @param userId - The userId for which the sessions are being generated. You must ensure that only events for this user
  *               are input into a particular instance.
@@ -87,6 +89,8 @@ class StatefulSessionFactory(userId: String, timeout: Long = 30*1000*60) extends
    */
   private def evaluateClosureOfCurrentSessionState(eventTimeInMillis: Long) {
     if (eventTimeInMillis - mostRecentEventTimeInMillis >= timeout) {
+      logger.debug(s"Period delta of ${eventTimeInMillis - mostRecentEventTimeInMillis} greater than $timeout." +
+        s"Closing off session and beginning new one.")
       completeAndAddSessionToCompletedList()
     }
   }
@@ -101,6 +105,7 @@ class StatefulSessionFactory(userId: String, timeout: Long = 30*1000*60) extends
     this.mostRecentEventTimeInMillis = CONST_MOST_RECENT_SENTINEL
     this.leastRecentEventTimeInMillis = CONST_LEAST_RECENT_SENTINEL
     activeSessionEvents.clear()
+    logger.debug("Created new sessions and reset the state machine.")
   }
 
 }

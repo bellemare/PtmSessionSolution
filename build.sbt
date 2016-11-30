@@ -4,6 +4,8 @@ version := "20161127.0"
 
 scalaVersion := "2.10.4"
 
+compileOrder := CompileOrder.JavaThenScala
+
 resolvers ++= Seq(
   Resolver.mavenLocal,
   "JBoss Repository" at "http://repository.jboss.org/nexus/content/repositories/releases/",

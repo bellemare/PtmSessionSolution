@@ -18,3 +18,7 @@ A minimum session length of a small but reasonable number, such as 5-10 seconds 
 2) Is the session length strictly the delta from Event 0 to Event N? Or Should there be padding around it?
 Are we more interested in the user's experience on the client side, or are we only concerned about server-side activity?
 
+3) Regex for parsing logs. There could be some corner cases that I have not covered. In addition, the pattern matching speed could be an issue. I do use a greedy match in there to get around some issues I had with matching the REST requests.
+Given that we have a very good idea of what the logs are supposed to look like, there is a chance for performance gains here.
+
+4) Not entirely sure what constitutes a unique web page visit. I simply looked to match the entire string, but there may be additional logic baked into the URL that I need to address or parse. Either way, the code is modular enough that only a single function will need to be modified to fix that.
