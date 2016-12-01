@@ -1,0 +1,39 @@
+===========================================================================================================
+300 Seconds Timeout
+===========================================================================================================
+Number of sessions: 118137
+===========================================================================================================
+Average session length in seconds, including 0-duration sessions = 58.38566655662573
+===========================================================================================================
+Average session length in seconds without 0-duration sessions = 72.96170231446244
+===========================================================================================================
+Printing all the unique URL visits for a sample of 3 sessions
+UserIP = 122.167.218.140, unique URL Visits:
+  GET https://paytm.com:443/shop?utm_source=Affiliates&utm_medium=OMG&utm_campaign=OMG&utm_term=745750_ HTTP/1.1
+UserIP = 1.38.18.100, unique URL Visits:
+  GET https://paytm.com:443/shop/v1/frequentorders HTTP/1.1
+  POST https://paytm.com:443/shop/log HTTP/1.1
+  GET https://paytm.com:443/shop/cart HTTP/1.1
+  POST https://paytm.com:443/api/v1/expresscart/checkout?wallet=1 HTTP/1.1
+  POST https://paytm.com:443/papi/v1/expresscart/verify HTTP/1.1
+  GET https://paytm.com:443/shop/login?isIframe=true&theme=mp-html5 HTTP/1.1
+  GET https://paytm.com:443/shop/authresponse?code=996dde68-879f-4821-a270-f1a74aafee15&state=null HTTP/1.1
+UserIP = 1.38.18.103, unique URL Visits:
+  GET https://paytm.com:443/shop/logout?channel=web&version=2 HTTP/1.1
+  GET https://paytm.com:443/api/oauth2/user/clients?channel=web&version=2 HTTP/1.1
+  GET https://paytm.com:443/shop HTTP/1.1
+  GET https://paytm.com:443/shop/cart?channel=web&version=2 HTTP/1.1
+  GET https://paytm.com:443/shop/wallet/txnhistory?page_size=10&page_number=0&channel=web&version=2 HTTP/1.1
+===========================================================================================================
+Get the top-10 most engaged users, non-duplicated, with their longest session times.
+userIP = 164.100.96.254, Session Length in Seconds = 1134
+userIP = 116.50.79.74, Session Length in Seconds = 579
+userIP = 52.74.219.71, Session Length in Seconds = 559
+userIP = 106.186.23.95, Session Length in Seconds = 559
+userIP = 103.36.251.10, Session Length in Seconds = 559
+userIP = 119.81.61.166, Session Length in Seconds = 558
+userIP = 125.19.44.66, Session Length in Seconds = 557
+userIP = 54.251.151.39, Session Length in Seconds = 557
+userIP = 103.29.159.186, Session Length in Seconds = 557
+userIP = 182.66.36.72, Session Length in Seconds = 557
+===========================================================================================================

@@ -1,3 +1,15 @@
+How to build:
+1) git clone the project
+2) cd to project root
+3) execute "sbt assembly". This should build the fat jar with the dependencies.
+
+How to run:
+1) bin/run_with_defaults.sh <time_in_seconds>
+Note: The application will run in local mode, unless the spark-submit parameters are modified to specify a cluster.
+
+
+Questions:
+
 Q: "As a bonus, consider what additional data would help make better analytical conclusions"
 The payTM userID would be the best way to attribute events to users. This could be done by sending the ID along with the GET and PUT requests, provided there exists a secure way to do this. The client would be responsible for sending this information along to the web server.
 
@@ -22,3 +34,5 @@ Are we more interested in the user's experience on the client side, or are we on
 Given that we have a very good idea of what the logs are supposed to look like, there is a chance for performance gains here.
 
 4) Not entirely sure what constitutes a unique web page visit. I simply looked to match the entire string, but there may be additional logic baked into the URL that I need to address or parse. Either way, the code is modular enough that only a single function will need to be modified to fix that.
+
+

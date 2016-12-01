@@ -32,6 +32,8 @@ object SessionAppCLI extends App with Logging {
 
   //Number of Sessions:
   stringBuilder.append("===========================================================================================================\n")
+  stringBuilder.append(s"${cliArgs.getTimeoutInSeconds} Seconds Session Timeout\n")
+  stringBuilder.append("===========================================================================================================\n")
   stringBuilder.append(s"Number of sessions: ${sessions.count()}\n")
   stringBuilder.append("===========================================================================================================\n")
   //Session length average, including sessions with single-events
